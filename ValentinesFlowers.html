@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Valentines Flowers - Order your flowers online</title>
+    <link rel="stylesheet" href="ValentinesFlowersStyle.css"
+</head>
+<body>
+    <div class="container">
+        <h1>Valentins Flowers</h1>
+        <div class="products-content">
+            <div class="product">
+                <div class="product1" id="product1">
+                    <img src="images/white.jpeg" alt="White Flower Bouquet" id="whiteflowerimg">
+                    <div class="description">
+                        <p>White Bouquet</p>
+                        <div  class="price">
+                            £<span id="whitePrice">24</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product2" id="product2">
+                    <img src="images/pink.jpeg" alt="Pink Flower Bouquet" id="pinkflowerimg">
+                    <div class="description">
+                        <p>Pink Bouquet</p>
+                        <div  class="price">
+                            £<span id="pinkPrice">25</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product3" id="product3">
+                    <img src="images/red.jpeg" alt="Red Flower Bouquet" id="redflowerimg">
+                    <div class="description">
+                        <p>Red Bouquet</p>
+                        <div class="price">
+                            £<span id="redPrice">20</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="labelOrder">
+            Your Order:<div id="orderDescription"></div>
+            <div class="product" id="order"></div>
+        </div>
+            
+        <div class="form-content">
+            <form name="orderform" id="orderid">
+                <select name="bouquetOptions" id="bouquetOptions">
+                    <option selected="true" disabled="disabled">Please Select</option>
+                    <option value="withChampagne">With Champagne</option>   
+                    <option value="extra">50% Extra Flowers</option>
+                    <option value="extraWithChampagne">50% Extra Flowers and Champagne</option>
+                </select>
+                <label for=""bouquetColor"">Bouquet Color: </label>
+                <input type="radio" name="bouquetColor" id="white" value="white" checked="checked">
+                <label for="white">White</label>
+                <input type="radio" name="bouquetColor" id="pink" value="pink">
+                <label for="pink">Pink</label>
+                <input type="radio" name="bouquetColor" id="red" value="red">
+                <label for="red">Red</label>
+                <div class="buttons">
+                    <input type="reset" value="Clear your order">
+                    <input type="button" name="placeorderbutton" id="placeorderbutton" value="Place your order">
+                </div>
+            </form>
+        </div>
+    </div>
+    
+   <script>
+        let totalPrice = 0;
+        let prices = [24, 25, 50];
+        
+        function checkOptions(formRef){
+            
+            let selectValue = document.getElementById("bouquetOptions").value;
+
+            if (selectValue.includes("Champagne")) {
+                document.getElementById("whiteflowerimg").src = "images/white-gift.jpeg";
+                document.getElementById("pinkflowerimg").src = "images/pink-gift.jpeg";
+                document.getElementById("redflowerimg").src = "images/red-gift.jpeg";
+            } else {
+                document.getElementById("whiteflowerimg").src = "images/white.jpeg";
+                document.getElementById("pinkflowerimg").src = "images/pink.jpeg";
+                document.getElementById("redflowerimg").src = "images/red.jpeg";
+            }
+
+            if (selectValue.includes("extra")){
+                document.getElementById("whitePrice").innerHTML = prices[0]*1.5;
+                document.getElementById("pinkPrice").innerHTML = prices[1]*1.5;
+                document.getElementById("redPrice").innerHTML =  prices[2]*1.5;
+            } else {
+                document.getElementById("whitePrice").innerHTML = prices[0];
+                document.getElementById("pinkPrice").innerHTML = prices[1];
+                document.getElementById("redPrice").innerHTML = prices[2];
+            }
+
+        }
+
+        function checkButton() { //checks radio button value to change order when select option changes
+            let chosenBouquet;  
+            if(document.getElementById('white').checked) {   
+                chosenBouquet = document.getElementById("white").value;
+                displayBouquet(chosenBouquet);
+            }   
+            else if(document.getElementById('pink').checked) {   
+                chosenBouquet = document.getElementById("pink").value;
+                displayBouquet(chosenBouquet);
+            }   
+            else if(document.getElementById('red').checked) {   
+                chosenBouquet = document.getElementById("red").value;   
+                displayBouquet(chosenBouquet);
+            }
+        }
+
+        function displayBouquet(bouquet){
+            switch (bouquet){
+                case "white":
+                    document.getElementById("order").innerHTML = document.getElementById("product1").innerHTML;
+                    totalPrice = document.getElementById("whitePrice").innerHTML;
+                    break;
+                case "pink":
+                    document.getElementById("order").innerHTML = document.getElementById("product2").innerHTML;
+                    totalPrice = document.getElementById("pinkPrice").innerHTML;
+                    break;
+                case "red":
+                    document.getElementById("order").innerHTML = document.getElementById("product3").innerHTML;
+                    totalPrice = document.getElementById("redPrice").innerHTML;
+                    break;
+            }
+
+        }    
+
+        function resetOrder() {
+            document.getElementById("whiteflowerimg").src = "images/white.jpeg";
+            document.getElementById("pinkflowerimg").src = "images/pink.jpeg";
+            document.getElementById("redflowerimg").src = "images/red.jpeg";
+            document.getElementById("whitePrice").innerHTML = prices[0];
+            document.getElementById("pinkPrice").innerHTML = prices[1];
+            document.getElementById("redPrice").innerHTML = prices[2];
+            document.getElementById("orderDescription").innerHTML = "";
+            document.getElementById("order").innerHTML = "";
+        }
+
+        function displayFinalPrice() {
+            if (document.getElementById("order").childNodes.length === 0) {
+                alert("Please select a product before ordering.")
+            } else {
+            alert("Your total price is £" + totalPrice + ".");
+            }
+        }
+
+        document.forms[0].addEventListener("reset", resetOrder);
+        
+        //displayBouquet on Radio Button Click
+        document.getElementById("white").addEventListener("click", function() 
+        {
+            displayBouquet(this.value)
+        });
+
+        document.getElementById("pink").addEventListener("click", function() 
+        {
+            displayBouquet(this.value)
+        });
+
+        document.getElementById("red").addEventListener("click", function() 
+        {
+            displayBouquet(this.value)
+        });
+
+        //change displayed flowers images on select option change        
+        document.getElementById("bouquetOptions").addEventListener("change",function()
+        {
+        checkOptions(this.form);
+
+        checkButton();
+
+        
+        });
+
+        //click even of images
+        document.getElementById("product1").addEventListener("click", function() 
+        {
+            displayBouquet("white");
+            document.getElementById("white").checked = true;
+        })
+
+        document.getElementById("product2").addEventListener("click", function() 
+        {
+            displayBouquet("pink");
+            document.getElementById("pink").checked = true;
+        })
+
+        document.getElementById("product3").addEventListener("click", function() 
+        {
+            displayBouquet("red");
+            document.getElementById("red").checked = true;
+        })
+
+        //place order button click
+        document.getElementById("placeorderbutton").addEventListener("click", function()
+        {
+            displayFinalPrice();
+        })
+
+    </script>
+</body>
+</html>
